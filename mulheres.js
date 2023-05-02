@@ -2,7 +2,7 @@ const express = require("express"); //iniciando o express
 const router =  express.Router(); //configurando a primeira parte da rota
 // const { v4: uuidv4 } = require('uuid'); não vamos mais precisar criar o id, o mongodb fará isso
 
-const cors = require('cors') //usando opacote que permite usar essa api no front-end
+const cors = require('cors'); //usando opacote que permite usar essa api no front-end
 const conectaBancoDeDados = require('./bancoDeDados'); //ligando ao arquivo banco de dados
 conectaBancoDeDados(); // chamando a função que conecta o banco de dados
 
@@ -44,25 +44,23 @@ async function criaMulher(request, response){
 }
 
 //PATCH
-function corrigeMulher(request, response) {
-    async function encontraMulher(mulher) {
-        //  modificada
+async function corrigeMulher(request, response) {
         try {
             const mulherEncontrada = await Mulher.findById(request.params.id);
             if(request.body.nome) {
-                mulherEncontrada.nome = request.body.nome
+                mulherEncontrada.nome = request.body.nome;
             }
         
             if(request.body.minibio) {
-                mulherEncontrada.minibio = request.body.minibio
+                mulherEncontrada.minibio = request.body.minibio;
             }
         
             if(request.body.imagem) {
-                mulherEncontrada.imagem = request.body.imagem
+                mulherEncontrada.imagem = request.body.imagem;
             }
         
             if(request.body.citacao) {
-                mulherEncontrada.citacao = request.body.citacao
+                mulherEncontrada.citacao = request.body.citacao;
             }
 
             const mulherAtualizadaNoBancoDeDados = await mulherEncontrada.save();
@@ -72,7 +70,7 @@ function corrigeMulher(request, response) {
             console.log(erro);
         }
     }
-}
+
 
 //DELETE (async é para lidar com banco de dados, função externa)
 async function deletaMulher(request, response) {
@@ -81,6 +79,7 @@ async function deletaMulher(request, response) {
     try {
         await Mulher.findByIdAndDelete(request.params.id);
         response.json({mensagem: 'Mulher deletada com sucesso!'});
+        
     } catch(erro) {
         console.log(erro);
     }
